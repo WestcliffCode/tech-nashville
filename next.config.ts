@@ -7,16 +7,11 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 import { redirects } from './redirects'
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
+// 1. Manually define the server URL to ensure it's a valid object
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
 const nextConfig: NextConfig = {
-  // Temporarily required on Windows until Next.js fixes Turbopack Sass resolution.
-  // See: https://github.com/vercel/next.js/issues/86431
-  sassOptions: {
-    loadPaths: ['./node_modules/@payloadcms/ui/dist/scss/'],
-  },
+  // ... your other config (sassOptions, etc)
   images: {
     localPatterns: [
       {
@@ -25,21 +20,26 @@ const nextConfig: NextConfig = {
     ],
     qualities: [100],
     remotePatterns: [
-      // This allows your production domain (the one you set in Vercel)
-      ...[process.env.NEXT_PUBLIC_SERVER_URL].filter(Boolean).map((item) => {
-        const url = new URL(item as string)
+      // Handles your main server URL
+      ...[serverUrl].map((item) => {
+        const url = new URL(item)
         return {
           hostname: url.hostname,
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-      // This is the CRITICAL addition for Vercel Blob images
+      // The "nuclear option" for Vercel Blob storage
       {
         protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com',
+        hostname: '**.vercel-storage.com', 
+      },
+      {
+        protocol: 'https',
+        hostname: '**.public.blob.vercel-storage.com',
       },
     ],
   },
+  // ... rest of your config
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],
