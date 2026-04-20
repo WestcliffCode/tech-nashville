@@ -25,19 +25,14 @@ const nextConfig: NextConfig = {
     ],
     qualities: [100],
     remotePatterns: [
-      // This allows your production domain (the one you set in Vercel)
-      ...[process.env.NEXT_PUBLIC_SERVER_URL].filter(Boolean).map((item) => {
-        const url = new URL(item as string)
+      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
+        const url = new URL(item)
+
         return {
           hostname: url.hostname,
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-      // This is the CRITICAL addition for Vercel Blob images
-      {
-        protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com',
-      },
     ],
   },
   webpack: (webpackConfig) => {
