@@ -37,7 +37,7 @@ export const defaultLexical = lexicalEditor({
           },
           'text-muted': {
             label: 'Muted',
-            css: { color: 'light-dark(#52525b, #a1a1aa)' },
+            css: { color: 'var(--muted-foreground)' },
           },
         },
         size: {
