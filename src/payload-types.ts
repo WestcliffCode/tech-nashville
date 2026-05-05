@@ -200,6 +200,10 @@ export interface Page {
         }[]
       | null;
     media?: (number | null) | Media;
+    /**
+     * Adds a panel behind the hero text to improve readability over busy images.
+     */
+    textBackdrop?: ('none' | 'frosted' | 'dark') | null;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
   meta?: {
@@ -1080,6 +1084,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
             };
         media?: T;
+        textBackdrop?: T;
       };
   layout?:
     | T

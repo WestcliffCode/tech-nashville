@@ -67,6 +67,22 @@ export const hero: Field = {
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'textBackdrop',
+      type: 'select',
+      defaultValue: 'none',
+      label: 'Text Backdrop',
+      admin: {
+        description:
+          'Adds a panel behind the hero text to improve readability over busy images.',
+        condition: (_, { type } = {}) => type === 'highImpact',
+      },
+      options: [
+        { label: 'None', value: 'none' },
+        { label: 'Frosted (white glass)', value: 'frosted' },
+        { label: 'Dark blur', value: 'dark' },
+      ],
+    },
   ],
   label: false,
 }
