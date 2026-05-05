@@ -10,15 +10,16 @@ export const revalidateEvent: CollectionAfterChangeHook<Event> = ({
 }) => {
   if (!context.disableRevalidate) {
     payload.logger.info('Revalidating events')
-    revalidateTag('events')
+    revalidateTag('events', 'max')
   }
   return doc
 }
 
 export const revalidateEventDelete: CollectionAfterDeleteHook<Event> = ({
-  req: { context },
+  req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
-    revalidateTag('events')
+    payload.logger.info('Revalidating events')
+    revalidateTag('events', 'max')
   }
 }

@@ -56,6 +56,7 @@ export const EventsGrid: React.FC<{ events: Event[] }> = ({ events }) => {
           />
         </div>
         <select
+          aria-label="Sort events"
           value={sort}
           onChange={(e) => setSort(e.target.value as SortOption)}
           className="h-10 rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

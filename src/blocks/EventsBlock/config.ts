@@ -30,6 +30,8 @@ export const EventsBlock: Block = {
       name: 'limit',
       type: 'number',
       defaultValue: 12,
+      min: 1,
+      max: 100,
       label: 'Max Events to Display',
       admin: {
         step: 1,

@@ -33,6 +33,7 @@ async function fetchEvents(limit: number, showPast: boolean): Promise<Event[]> {
 
 const getCachedEvents = unstable_cache(fetchEvents, ['events-block'], {
   tags: ['events'],
+  revalidate: 3600,
 })
 
 export const EventsBlockComponent: React.FC<
@@ -44,7 +45,7 @@ export const EventsBlockComponent: React.FC<
   const events = await getCachedEvents(limit, showPastEvents ?? false)
 
   return (
-    <div className="my-16" id={`block-${id}`}>
+    <div className="my-16" id={id ? `block-${id}` : undefined}>
       {introContent && (
         <div className="container mb-8">
           <RichText className="ms-0 max-w-[48rem]" data={introContent} enableGutter={false} />

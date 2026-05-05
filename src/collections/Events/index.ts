@@ -55,6 +55,13 @@ export const Events: CollectionConfig<'events'> = {
           name: 'endDate',
           type: 'date',
           label: 'End Date & Time (optional)',
+          validate: (value, { siblingData }) => {
+            const data = siblingData as Record<string, unknown>
+            if (value && data?.eventDate && new Date(value) < new Date(data.eventDate as string)) {
+              return 'End date must be after the start date'
+            }
+            return true
+          },
           admin: {
             date: {
               pickerAppearance: 'dayAndTime',
@@ -92,6 +99,15 @@ export const Events: CollectionConfig<'events'> = {
       name: 'externalUrl',
       type: 'text',
       label: 'Ticket / RSVP Link',
+      validate: (value: string | null | undefined) => {
+        if (!value) return true
+        try {
+          new URL(value)
+          return true
+        } catch {
+          return 'Please enter a valid URL (e.g. https://example.com)'
+        }
+      },
       admin: {
         description: 'External URL for tickets or registration',
       },
@@ -112,7 +128,7 @@ export const Events: CollectionConfig<'events'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 1500,
       },
       schedulePublish: true,
     },
