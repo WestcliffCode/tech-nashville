@@ -8,7 +8,7 @@ import { Media } from '@/components/Media'
 import { CalendarDays, MapPin, Clock, ExternalLink } from 'lucide-react'
 
 function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  return new Date(dateString).toLocaleDateString(undefined, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
@@ -17,14 +17,15 @@ function formatDate(dateString: string): string {
 }
 
 function formatTime(dateString: string): string {
-  return new Date(dateString).toLocaleTimeString('en-US', {
+  return new Date(dateString).toLocaleTimeString(undefined, {
     hour: 'numeric',
     minute: '2-digit',
   })
 }
 
-function isPast(dateString: string): boolean {
-  return new Date(dateString) < new Date()
+function isPast(startDate: string, endDate?: string | null): boolean {
+  const effective = endDate ? new Date(endDate) : new Date(startDate)
+  return effective < new Date()
 }
 
 export const EventCard: React.FC<{ event: Event }> = ({ event }) => {
@@ -32,13 +33,14 @@ export const EventCard: React.FC<{ event: Event }> = ({ event }) => {
     title,
     featuredImage,
     eventDate,
+    endDate,
     venueName,
     venueAddress,
     description,
     externalUrl,
   } = event
 
-  const past = isPast(eventDate)
+  const past = isPast(eventDate, endDate)
 
   return (
     <Card className={`overflow-hidden group transition-shadow hover:shadow-lg ${past ? 'opacity-70' : ''}`}>

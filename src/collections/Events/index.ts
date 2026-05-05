@@ -43,6 +43,7 @@ export const Events: CollectionConfig<'events'> = {
           name: 'eventDate',
           type: 'date',
           required: true,
+          index: true,
           label: 'Date & Time',
           admin: {
             date: {
@@ -102,7 +103,10 @@ export const Events: CollectionConfig<'events'> = {
       validate: (value: string | null | undefined) => {
         if (!value) return true
         try {
-          new URL(value)
+          const url = new URL(value)
+          if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+            return 'Please enter a valid URL (e.g. https://example.com)'
+          }
           return true
         } catch {
           return 'Please enter a valid URL (e.g. https://example.com)'
