@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type Metadata from 'next'
 
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
