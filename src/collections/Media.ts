@@ -44,7 +44,6 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    maxFileSize: 250 * 1024 * 1024, // 250 MB (accommodates video uploads)
     imageSizes: [
       {
         name: 'thumbnail',

@@ -18,6 +18,11 @@ const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
     : 'http://localhost:3000'
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '250mb',
+    },
+  },
   // Required on Windows until Next.js fixes Turbopack Sass resolution for @payloadcms/ui
   // See: https://github.com/vercel/next.js/issues/86431
   sassOptions: {
